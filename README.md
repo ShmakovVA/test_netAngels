@@ -13,6 +13,7 @@ test
 You can fill db by pressing button "Fill with test links" on main menu of web-client application.
 
 # For api using
-You can make link shorter by sending POST request to /api/v1/code/ with body like {"url": "http://long_link.com"}
->> In response you got data like {"hash": "156464512"}
-P.S.: This api POST request reversable
+You can make link shorter by sending POST request to /api/v1/code/ with body like {"url": "http://long_link.com"} and Content-Type= application/json
+> In response you got data like {"hash": "156464512"}
+
+*P.S.: This api POST request reversable*
