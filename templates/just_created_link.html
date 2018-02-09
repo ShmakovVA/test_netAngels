@@ -1,0 +1,23 @@
+{% extends 'common/base.html' %}
+{% block main %}
+
+    <div>
+        <table>
+            <p> It's your shorted link: </p>
+            <tr>
+                <th>Full link</th>
+                <th>Hash</th>
+                <th>Clicks</th>
+                <th>DateTime</th>
+            </tr>
+            <tr>
+                <td>{{ link.url }}</td>
+                <td><a href="/hash/redirect/{{ link.hash }}/">{{ link.hash }}</a></td>
+                <td>{{ link.click_count }}</td>
+                <td>{{ link.datetime }}</td>
+            </tr>
+        </table>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'common/base.html' %}
+{% block main %}
+
+    <div>
+        <table>
+            <tr>
+                <th>Full link</th>
+                <th>Hash</th>
+            </tr>
+            {% for l in all_links %}
+                <tr>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <td>{{ l.url }}</td>
+                        <td><a href="/hash/redirect/{{ l.hash }}/">{{ l.hash }}</a></td>
+                        <input type="hidden" name="id" value="{{ l.id }}">
+                        <td><input type="submit" value="Delete"/></td>
+                    </form>
+                    <td>
+                        <button><a href="/new_link/{{ l.id }}/"> Details </a></button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+{% endblock %}
