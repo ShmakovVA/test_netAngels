@@ -9,9 +9,9 @@ def get_from_hash(request):
     if request.method == 'POST':
         form = HashLinkForm(request.POST)
         if form.is_valid():
-            l = Link.objects.filter(hash=form.cleaned_data['hash'])
-            if l:
-                return HttpResponseRedirect(r'/new_link/{}/'.format(l[0].id))
+            link = Link.objects.filter(hash=form.cleaned_data['hash'])
+            if link:
+                return HttpResponseRedirect(r'/new_link/{}/'.format(link[0].id))
             else:
                 return render(request, 'from_hash.html', context={'form': form, 'mess': 'Not founded'})
         else:
@@ -31,14 +31,12 @@ def home(request):
         form = LinkForm(request.POST)
         if form.is_valid():
             try:
-                l = Link.objects.get(url=form.cleaned_data['url'])
+                link = Link.objects.get(url=form.cleaned_data['url'])
             except Link.DoesNotExist:
-                l = Link()
-                l.url = form.cleaned_data['url']
-                l.hash = hash(l.url)
-                l.click_count = 0
-                l.save()
-            return HttpResponseRedirect(r'/new_link/{}/'.format(l.id))
+                url = form.cleaned_data['url']
+                link = Link(url=url, hash=hash(url), click_count=0)
+                link.save()
+            return HttpResponseRedirect(r'/new_link/{}/'.format(link.id))
 
     else:
         form = LinkForm(initial={'url': '', })
@@ -47,29 +45,29 @@ def home(request):
     return render(request, 'add_link_and_top_20.html', context={'form': form, 'top_20_links': top_20_links})
 
 
-def all(request):
+def all_links(request):
     if request.method == 'POST':
-        id = request.POST.get("id", None)
-        if id:
-            l = Link.objects.get(id=id)
-            if l:
-                l.delete()
+        link_id = request.POST.get("id", None)
+        if link_id:
+            link = Link.objects.get(id=link_id)
+            if link:
+                link.delete()
 
     links = Link.objects.all().order_by('click_count', 'datetime').reverse()
     return render(request, 'all_links.html', context={'all_links': links})
 
 
-def new_link(request, id):
+def new_link(request, link_id):
     try:
-        link = Link.objects.get(id=id)
+        link = Link.objects.get(id=link_id)
     except Link.DoesNotExist:
         return HttpResponseRedirect(r'/')
     return render(request, 'just_created_link.html', context={'link': link})
 
 
-def redirect_from_short(request, hash):
+def redirect_from_short(request, hash_value):
     try:
-        link = Link.objects.get(hash=hash)
+        link = Link.objects.get(hash=hash_value)
     except Link.DoesNotExist:
         return HttpResponseRedirect(r'/')
     link.inc_clicks()

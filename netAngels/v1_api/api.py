@@ -32,16 +32,16 @@ class CodeLinkResource(ModelResource):
 
         if param_url:
             try:
-                l = Link.objects.get(url=data.get('url', ''))
+                link = Link.objects.get(url=data.get('url', ''))
             except Link.DoesNotExist:
-                l = Link(click_count=0, url=param_url, hash=hash(param_url))
-                l.save()
-                return self.create_response(request, {'hash': l.hash})
-            return self.create_response(request, {'hash': l.hash})
+                link = Link(click_count=0, url=param_url, hash=hash(param_url))
+                link.save()
+                return self.create_response(request, {'hash': link.hash})
+            return self.create_response(request, {'hash': link.hash})
         else:
             try:
-                l = Link.objects.get(hash=data.get('hash', ''))
+                link = Link.objects.get(hash=data.get('hash', ''))
             except Link.DoesNotExist:
                 return self.create_response(request, {'error': 'DoesNotExist'})
-            l.inc_clicks()
-            return self.create_response(request, {'url': l.url})
+            link.inc_clicks()
+            return self.create_response(request, {'url': link.url})
