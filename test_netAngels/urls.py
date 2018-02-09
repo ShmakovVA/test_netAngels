@@ -14,7 +14,7 @@ urlpatterns = [
 
     url(r'^all/', all_links),  # browse all links, deleting links, detailed view
     url(r'^new_link/?(\d*)/', new_link),  # detailed link view
-    url(r'^hash/redirect/?(\d*)/', redirect_from_short),  # get full url from hash
+    url(r'^hash/redirect/?(-?\d*)/', redirect_from_short),  # get full url from hash
     url(r'^hash/', get_from_hash),  # get full url from hash
     url(r'^$', home),  # make short url (hash) from full url and view 20 most popular links
 
