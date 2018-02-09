@@ -1,0 +1,28 @@
+{% if all_links.has_other_pages %}
+    <ul class="pagination" style="white-space:nowrap;">
+        {% if all_links.has_previous %}
+            <li style="display: inline"><a href="?page={{ all_links.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li style="display: inline" class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in all_links.paginator.page_range %}
+            {% if all_links.number == i %}
+                <b>
+                    <button style="font-size: larger">
+                        <li style="display: inline" class="active"><span>{{ i }} <span
+                                class="sr-only"></span></span></li>
+                    </button>
+                </b>
+            {% else %}
+                <button>
+                    <li style="display: inline"><a href="?page={{ i }}">{{ i }}</a></li>
+                </button>
+            {% endif %}
+        {% endfor %}
+        {% if all_links.has_next %}
+            <li style="display: inline"><a href="?page={{ all_links.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li style="display: inline" class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+{% endif %}

@@ -3,7 +3,7 @@ from django.contrib import admin
 from tastypie.api import Api
 
 from netAngels.v1_api.api import CodeLinkResource
-from netAngels.views import home, all_links, new_link, get_from_hash, redirect_from_short
+from netAngels.views import home, all_links, new_link, get_from_hash, redirect_from_short, test_fill
 
 # api (tastypie) universal function for conversion
 v1_api = Api(api_name='v1')
@@ -20,4 +20,5 @@ urlpatterns = [
 
     url(r'^api/', include(v1_api.urls)),  # api (tastypie) support (see v1_api/api.py)
 
+    url(r'^test_fill/', test_fill),  # fill db with test data
 ]

@@ -1,6 +1,8 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from fill_db import fill
 from netAngels.models import Link
 from .forms import LinkForm, HashLinkForm
 
@@ -54,7 +56,16 @@ def all_links(request):
                 link.delete()
 
     links = Link.objects.all().order_by('click_count', 'datetime').reverse()
-    return render(request, 'all_links.html', context={'all_links': links})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(links, 25)
+    try:
+        paginated_links = paginator.page(page)
+    except PageNotAnInteger:
+        paginated_links = paginator.page(1)
+    except EmptyPage:
+        paginated_links = paginator.page(paginator.num_pages)
+
+    return render(request, 'all_links.html', context={'all_links': paginated_links})
 
 
 def new_link(request, link_id):
@@ -72,3 +83,8 @@ def redirect_from_short(request, hash_value):
         return HttpResponseRedirect(r'/')
     link.inc_clicks()
     return HttpResponseRedirect(link.url)
+
+
+def test_fill(request):
+    fill()
+    return HttpResponseRedirect(r'/')

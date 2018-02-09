@@ -1,5 +1,7 @@
 {% extends 'common/base.html' %}
+
 {% block main %}
+    {% include "common/paginator.html" %}
 
     <div>
         <table>
@@ -24,5 +26,5 @@
         </table>
     </div>
 
-
+    {% include "common/paginator.html" %}
 {% endblock %}
